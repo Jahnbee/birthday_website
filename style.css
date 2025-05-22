@@ -1,0 +1,32 @@
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #ffe4ec;
+  color: #d6336c;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 30px;
+}
+
+.heart {
+  width: 150px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.heart:active {
+  transform: scale(1.2);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #ff99c8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+

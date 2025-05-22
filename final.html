@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Final Surprise 💌</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff0f6;
+      font-family: 'Comic Sans MS', cursive;
+      color: #d6336c;
+      text-align: center;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 60px;
+      position: relative;
+    }
+
+    .typewriter-text {
+      font-size: 1.2rem;
+      white-space: pre-line;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    .love-photo {
+      margin-top: 30px;
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 192, 203, 0.5);
+    }
+
+    .restart-btn {
+      margin-top: 40px;
+      display: inline-block;
+      background: #ff69b4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    canvas#heartCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heartCanvas"></canvas>
+  <div class="container">
+    <h1>Happy Birthday Baby 🩷</h1>
+    <p id="typewriter" class="typewriter-text"></p>
+    <img src="images/us.png" alt="Our Photo" class="love-photo" />
+    <br>
+    <a href="index.html" class="restart-btn">Restart 💫</a>
+    <audio id="bg-music" autoplay loop>
+      <source src="audio/mahi-ve.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <script>
+    // Typewriter effect
+    const text = `I love you and I know I say it a lot, but I don’t think I’ll ever get tired of it. It’s just how I feel all the time.
+
+It’s weird how it feels exactly like it felt 4 years back when we had just started dating. Being in love with you feels like biting into the world's most delicious tiramisu – the feeling is the same.
+
+Being with you feels like I’m wrapped around a cozy blanket on a cold winter day, and kissing you feels like I’ve achieved everything I ever wanted.
+
+I wish I could do more for you today, but maybe something’s coming your way in a few days… hehe, you’ll have to wait and see.
+
+Just know you mean the world to me. 💌`;
+    
+    let i = 0;
+    const speed = 40;
+    function typeWriter() {
+      if (i < text.length) {
+        document.getElementById("typewriter").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    window.onload = function () {
+      typeWriter();
+      document.getElementById("bg-music").play().catch(() => {
+        // wait for user interaction
+        document.body.addEventListener("click", () => {
+          document.getElementById("bg-music").play();
+        }, { once: true });
+      });
+    };
+
+    // Pixel heart rain
+    const canvas = document.getElementById("heartCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const hearts = Array(100).fill().map(() => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: 8 + Math.random() * 8,
+      speed: 1 + Math.random() * 2,
+      color: `#ff69b4`
+    }));
+
+    function drawHearts() {
+      ctx.clearRect(0, 0, width, height);
+      for (const h of hearts) {
+        ctx.fillStyle = h.color;
+        ctx.beginPath();
+        ctx.moveTo(h.x, h.y);
+        ctx.arc(h.x, h.y, h.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        h.y += h.speed;
+        if (h.y > height) {
+          h.y = 0;
+          h.x = Math.random() * width;
+        }
+      }
+      requestAnimationFrame(drawHearts);
+    }
+
+    drawHearts();
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
+</body>
+</html>

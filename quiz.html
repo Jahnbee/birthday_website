@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Time!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>💕 Let's see how well you remember 💕</h2>
+
+    <form id="quizForm">
+      <div class="question">
+        <p>1. What was the first post you sent me on Instagram?</p>
+        <label><input type="radio" name="q1" value="Mirzapur reel" /> Mirzapur reel</label><br />
+        <label><input type="radio" name="q1" value="Sunflower post" /> Sunflower post</label><br />
+        <label><input type="radio" name="q1" value="Meme" /> Meme</label>
+      </div>
+
+      <div class="question">
+        <p>2. What game did we play on our first online date?</p>
+        <label><input type="radio" name="q2" value="Dumb charades" /> Dumb charades</label><br />
+        <label><input type="radio" name="q2" value="Ludo" /> Ludo</label><br />
+        <label><input type="radio" name="q2" value="Among us" /> Among us</label>
+      </div>
+
+      <div class="question">
+        <p>3. What is our fav food?</p>
+        <label><input type="radio" name="q3" value="Pasta" /> Pasta</label><br />
+        <label><input type="radio" name="q3" value="Wings" /> Wings</label><br />
+        <label><input type="radio" name="q3" value="Pizza" /> Pizza</label>
+      </div>
+
+      <button type="submit">Submit 💌</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const answers = {
+        q1: "Sunflower post",
+        q2: "Dumb charades",
+        q3: "Pizza"
+      };
+
+      let score = 0;
+
+      const form = e.target;
+      const userAnswers = {
+        q1: form.q1.value,
+        q2: form.q2.value,
+        q3: form.q3.value
+      };
+
+      Object.keys(answers).forEach((q) => {
+        if (userAnswers[q] === answers[q]) {
+          score++;
+        }
+      });
+
+      if (score === 3) {
+        window.location.href = "scratch.html";
+      } else {
+        alert("Oops! Try again—you got " + score + " out of 3 right!");
+      }
+    });
+  </script>
+</body>
+</html>

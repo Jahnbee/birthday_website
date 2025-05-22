@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scratch to Reveal 💝</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    .container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    #couponImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+      border-radius: 15px;
+      z-index: 0;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+      border-radius: 15px;
+      z-index: 1;
+    }
+
+    #revealText {
+      font-size: 1.2rem;
+      color: #d6336c;
+      margin-top: 30px;
+      display: none;
+    }
+
+    #nextLink {
+      display: none;
+      margin-top: 20px;
+      font-size: 1rem;
+      color: white;
+      background-color: #ff69b4;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎁 Scratch to reveal your surprise!</h2>
+  <div class="container">
+    <img id="couponImage" src="images/coupon.png" alt="Coupon" />
+    <canvas id="scratchCanvas" width="300" height="300"></canvas>
+  </div>
+
+  <p id="revealText">YAY! You did it! Click below for your final surprise 💌</p>
+  <a href="final.html" id="nextLink">Go to your final surprise 💝</a>
+
+  <script>
+    const canvas = document.getElementById("scratchCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Fill canvas with grey color
+    ctx.fillStyle = "#cccccc";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Make the canvas scratchable
+    ctx.globalCompositeOperation = "destination-out";
+
+    let isDrawing = false;
+
+    canvas.addEventListener("mousedown", () => isDrawing = true);
+    canvas.addEventListener("mouseup", () => isDrawing = false);
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isDrawing) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 20, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Reveal message after enough is scratched
+    canvas.addEventListener("mouseup", () => {
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let cleared = 0;
+
+      for (let i = 3; i < imageData.length; i += 4) {
+        if (imageData[i] === 0) cleared++;
+      }
+
+      if (cleared > imageData.length * 0.2) {
+        document.getElementById("revealText").style.display = "block";
+        document.getElementById("nextLink").style.display = "inline-block";
+      }
+    });
+  </script>
+</body>
+</html>
